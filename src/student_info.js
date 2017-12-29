@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {ContainerFluid, Row, Col} from './utils';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
@@ -38,19 +39,15 @@ export default class StudentInfo extends Component
     ];
 
     return (
-      <div className="container-fluid">
+      <ContainerFluid>
         <fieldset>
           <legend>Student Demographics</legend>
-          <div className="row">
-            <div className="col">
-              {labels_lhs.map((l, i) => <InputField label={l} key={i} />)}
-            </div>
-            <div className="col">
-              {labels_rhs.map((l, i) => <InputField label={l} key={i} />)}
-            </div>
-          </div>
+          <Row>
+            <Col>{labels_lhs.map((l, i) => <InputField label={l} key={i} />)}</Col>
+            <Col>{labels_rhs.map((l, i) => <InputField label={l} key={i} />)}</Col>
+          </Row>
         </fieldset>
-      </div>
+      </ContainerFluid>
     );
   }
 }
