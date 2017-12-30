@@ -1,45 +1,47 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {ContainerFluid, Row, Col} from './utils';
+import Moment from 'moment';
+import momentLocalizer from 'react-widgets-moment';
+import {DateTimePicker} from 'react-widgets';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
 
-export default class StudentInfo extends Component
-{
-  render()
-  {
-    return (
-      <ContainerFluid>
-        <fieldset>
-          <legend>Student Demographics</legend>
-          <Row>
-            <Col>
-              <TextField label="Student Name" />
-              <SelectBox label="Student Gender" options={["Male", "Female"]} />
-              <DateField label="Student Date of Birth" />
-              <TextField label="Student School" />
-            </Col>
-            <Col>
-              <Row>
-                <Col><DateField label="Date Administered - Start" /></Col>
-                <Col><DateField label="Date Administered - End" /></Col>
-              </Row>
-              <NumberField label="Age at Testing" />
-              <SelectBox label="Grade" options={[1, 2]} />
-            </Col>
-          </Row>
-        </fieldset>
-      </ContainerFluid>
-    );
-  }
-}
+Moment.locale("en");
+momentLocalizer();
+
+export default props => {
+  return (
+    <ContainerFluid>
+      <fieldset>
+        <legend>Student Demographics</legend>
+        <Row>
+          <Col>
+            <TextField label="Student Name" onChange={props.onNameChange} />
+            <SelectBox label="Student Gender" options={["Male", "Female"]} onChange={props.onGenderChange} />
+            <DateField label="Student Date of Birth" onChange={props.onDateOfBirthChange} />
+            <TextField label="Student School" onChange={props.onSchoolChange} />
+          </Col>
+          <Col>
+            <Row>
+              <Col><DateField label="Date Administered - Start" onChange={props.onTestDateStartChange} /></Col>
+              <Col><DateField label="Date Administered - End" onChange={props.onTestDateEndChange} /></Col>
+            </Row>
+            <NumberField label="Age at Testing" onChange={props.onAgeChange} />
+            <SelectBox label="Grade" options={[1, 2]} onChange={props.onGradeChange} />
+          </Col>
+        </Row>
+      </fieldset>
+    </ContainerFluid>
+  );
+};
 
 function TextField(props)
 {
   return (
     <div className="form-group">
       <label>{props.label}</label><br />
-      <input type="text" className="form-control" />
+      <input type="text" className="form-control" onChange={props.onChange} />
     </div>
   );
 }
@@ -49,7 +51,7 @@ function NumberField(props)
   return (
     <div className="form-group">
       <label>{props.label}</label><br />
-      <input type="number" className="form-control" />
+      <input type="number" className="form-control" onChange={props.onChange} />
     </div>
   );
 }
@@ -59,7 +61,7 @@ function SelectBox(props)
   return (
     <div className="form-group">
       <label>{props.label}</label><br />
-      <select className="form-control">
+      <select className="form-control" onChange={props.onChange}>
         {props.options.map((v, i) => <option key={i} value={v}>{v}</option>)}
       </select>
     </div>
@@ -71,7 +73,7 @@ function DateField(props)
   return (
     <div className="form-group">
       <label>{props.label}</label><br />
-      <input type="date" className="form-control" />
+      <DateTimePicker time={false} format="YYYY-MM-DD" onChange={props.onChange} />
     </div>
   );
 }
