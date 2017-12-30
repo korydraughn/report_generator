@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import StudentInfo from './student_info';
 import Textarea from './textarea';
+import TestList from './test_list';
 import {SingleElementContainer} from './utils';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -18,8 +19,10 @@ export default class ReportForm extends Component
         <Textarea label="Significant Background Information (Optional)" rows={10} /><br />
         <Textarea label="Behaviors Observed During Testing (Optional)" rows={3} /><br />
 
+        <TestList />
+
         <SingleElementContainer>
-            <button type="button" className="btn btn-primary float-right">
+            <button type="button" className="btn btn-lg btn-primary float-right">
               Generate Report
             </button>
         </SingleElementContainer>
