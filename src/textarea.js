@@ -7,7 +7,11 @@ export default props => {
   return (
     <div className="form-group">
       <label>{props.label}</label>
-      <textarea rows={props.rows} className="form-control" style={{resize: 'none'}} />
+      <textarea
+        rows={props.rows}
+        className="form-control"
+        style={{resize: 'none'}}
+        onChange={props.onChange} />
     </div>
   );
 };

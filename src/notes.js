@@ -7,9 +7,18 @@ export default props => {
     <SingleElementContainer>
       <fieldset>
         <legend>Notes</legend>
-        <Textarea label="Background Information (Optional)" rows={3} />
-        <Textarea label="Significant Background Information (Optional)" rows={10} />
-        <Textarea label="Behaviors Observed During Testing (Optional)" rows={3} />
+        <Textarea
+          label="Background Information (Optional)"
+          rows={3}
+          onChange={props.onBackgroundInfoChange} />
+        <Textarea
+          label="Significant Background Information (Optional)"
+          rows={10}
+          onChange={props.onSignificantBackgroundInfoChange} />
+        <Textarea
+          label="Behaviors Observed During Testing (Optional)"
+          rows={3}
+          onChange={props.onBehaviorsObservedDuringTestingChange} />
       </fieldset>
     </SingleElementContainer>
   );

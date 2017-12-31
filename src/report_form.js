@@ -8,17 +8,18 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
 
 export default props => {
-  const {student} = props.event_handlers;
+  const {data} = props;
+  const {student, notes, tests} = props.event_handlers;
 
   return (
     <div>
-      <StudentInfo {...student} />
+      <StudentInfo data={data.student} {...student} />
       <br />
 
-      <Notes />
+      <Notes data={data.notes} {...notes} />
       <br />
 
-      <TestList />
+      <TestList data={data.tests.data} {...tests} />
 
       <SingleElementContainer>
           <button type="button" className="btn btn-lg btn-primary float-right">

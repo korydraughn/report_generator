@@ -1,7 +1,13 @@
 import React from 'react';
+import Moment from 'moment';
+import momentLocalizer from 'react-widgets-moment';
+import {DateTimePicker} from 'react-widgets';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
+
+Moment.locale("en");
+momentLocalizer();
 
 export function ContainerFluid(props)
 {
@@ -28,5 +34,47 @@ export function SingleElementContainer(props)
         </Col>
       </Row>
     </ContainerFluid>
+  );
+}
+
+export function TextField(props)
+{
+  return (
+    <div className="form-group">
+      <label>{props.label}</label><br />
+      <input type="text" className="form-control" onChange={props.onChange} />
+    </div>
+  );
+}
+
+export function NumberField(props)
+{
+  return (
+    <div className="form-group">
+      <label>{props.label}</label><br />
+      <input type="number" className="form-control" onChange={props.onChange} />
+    </div>
+  );
+}
+
+export function SelectBox(props)
+{
+  return (
+    <div className="form-group">
+      <label>{props.label}</label><br />
+      <select className="form-control" onChange={props.onChange}>
+        {props.options.map((v, i) => <option key={i} value={v}>{v}</option>)}
+      </select>
+    </div>
+  );
+}
+
+export function DateField(props)
+{
+  return (
+    <div className="form-group">
+      <label>{props.label}</label><br />
+      <DateTimePicker time={false} format="YYYY-MM-DD" onChange={props.onChange} />
+    </div>
   );
 }
