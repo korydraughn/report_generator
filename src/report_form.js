@@ -1,7 +1,7 @@
 import React from 'react';
 import StudentInfo from './student_info';
 import Notes from './notes';
-import TestList from './test_list';
+import Testing from './testing';
 import {SingleElementContainer} from './utils';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -19,7 +19,7 @@ export default props => {
       <Notes data={data.notes} {...notes} />
       <br />
 
-      <TestList data={data.tests.data} {...tests} />
+      <Testing data={data.tests.data} {...tests} />
 
       <SingleElementContainer>
           <button type="button" className="btn btn-lg btn-primary float-right">
