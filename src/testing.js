@@ -25,33 +25,79 @@ export default class Testing extends Component
 
   onTestListChange(tests)
   {
-    console.log(tests); // [{id, name}, ...]
-    const keys = tests.map(t => t.id);
-    this.setState({tests: _.zipObject(keys, tests)});
+    //this.setState((old_state, props) => {
+      //const length = _.size(old_state.tests);
+      //const state = {...old_state};
+      const length = _.size(this.state.tests);
+      const state = {...this.state};
+
+      if (length === 0)
+      {
+        state.tests[tests[0].id] = tests[0];
+      }
+      else if (tests.length > length)
+      {
+        // Add a new test.
+        const diff = _.differenceBy(tests, _.map(state.tests, t => ({id: t.id, name: t.name})), "id")[0];
+        state.tests[diff.id] = diff;
+      }
+      else if (tests.length < length)
+      {
+        // Remove an existing test.
+        const diff = _.differenceBy(_.map(state.tests, t => ({id: t.id, name: t.name})), tests, "id")[0];
+        delete state.tests[diff.id];
+      }
+
+      this.setState(state);
+      //return state;
+    //});
+
+    // Look at _.pick(...) and _.omit(...)
+    // const keys = tests.map(t => t.id);
+    // this.setState({tests: _.zipObject(keys, tests)});
   }
 
-  onTScoreChange(e)
+  onTScoreChange(test_id, subtest_id, e)
   {
-    console.log(e.target.value);
+    const old_state = {...this.state};
+    const new_state = {tests: {[test_id]: {[subtest_id]: {t_score: e.target.value}}}};
+    this.setState(_.merge({}, old_state, new_state));
+    setTimeout(() => console.log(this.state), 250);
   }
 
-  onPercentileRankChange(e)
+  onPercentileRankChange(test_id, subtest_id, e)
   {
-    console.log(e.target.value);
+    const old_state = {...this.state};
+    const new_state = {tests: {[test_id]: {[subtest_id]: {percentile_rank: e.target.value}}}};
+    this.setState(_.merge({}, old_state, new_state));
+    setTimeout(() => console.log(this.state), 250);
   }
 
-  onDescriptiveRange(e)
+  onDescriptiveRange(test_id, subtest_id, e)
   {
-    console.log(e.target.value);
+    const old_state = {...this.state};
+    const new_state = {tests: {[test_id]: {[subtest_id]: {descriptive_range: e.target.value}}}};
+    this.setState(_.merge({}, old_state, new_state));
+    setTimeout(() => console.log(this.state), 250);
   }
 
-  onConfidenceIntervalChange(e)
+  onConfidenceIntervalChange(test_id, subtest_id, e)
   {
-    console.log(e.target.value);
+    const old_state = {...this.state};
+    const new_state = {tests: {[test_id]: {[subtest_id]: {confidence_interval: e.target.value}}}};
+    this.setState(_.merge({}, old_state, new_state));
+    setTimeout(() => console.log(this.state), 250);
   }
 
   render()
   {
+    const handlers = {
+      onTScoreChange: this.onTScoreChange.bind(this),
+      onPercentileRankChange: this.onPercentileRankChange.bind(this),
+      onDescriptiveRange: this.onDescriptiveRange.bind(this),
+      onConfidenceIntervalChange: this.onConfidenceIntervalChange.bind(this)
+    };
+
     return (
       <div>
         <SingleElementContainer>
@@ -67,7 +113,7 @@ export default class Testing extends Component
             </div>
           </fieldset>
         </SingleElementContainer>
-        {_.map(this.state.tests, t => <Test key={t.id} spec={t} />)}
+        {_.map(this.state.tests, t => <Test key={t.id} spec={t} handlers={handlers} />)}
       </div>
     );
   }
@@ -81,8 +127,8 @@ function Test(props)
     <div style={{marginTop: "20px"}}>
       <SingleElementContainer>
         <h5><b><u>{spec.name}</u></b></h5>
-        {test_info.spec[spec.id].map(fields_spec => {
-          return <TestInfo key={fields_spec.label} fields_spec={fields_spec} />;
+        {test_info.spec[spec.id].map((fields_spec, i) => {
+          return <TestInfo key={i} test_id={spec.id} fields_spec={fields_spec} {...props.handlers} />;
         })}
       </SingleElementContainer>
     </div>
@@ -91,16 +137,30 @@ function Test(props)
 
 function TestInfo(props)
 {
+  const test_id = props.test_id;
   const fspec = props.fields_spec;
+  const subtest_id = fspec.label;
+  const ts = fspec.t_score;
+  const pr = fspec.percentile_rank;
+  const dr = fspec.descriptive_range;
+  const ci = fspec.confidence_interval;
+
+  const t_scores = ["", "68%", "90%", "98%"];
+  const ranges = ["", "Below Average", "Average", "Above Average"];
+
+  const jsx_ts = <SelectBox label="T-Score" options={t_scores} onChange={e => props.onTScoreChange(test_id, subtest_id, e)} />;
+  const jsx_pr = <NumberField label="Percentile Rank" onChange={e => props.onPercentileRankChange(test_id, subtest_id, e)} />; 
+  const jsx_dr = <SelectBox label="Descriptive Range" options={ranges} onChange={e => props.onDescriptiveRange(test_id, subtest_id, e)} />; 
+  const jsx_ci = <NumberField label="Confidence Interval" onChange={e => props.onConfidenceIntervalChange(test_id, subtest_id, e)} />; 
 
   return (
     <div style={{marginTop: "2em"}}>
       <h5 style={{paddingLeft: "20px"}}>{fspec.label}</h5>
       <div style={{width: "95%", margin: "auto"}}>
-        {fspec.t_score === true ? <SelectBox label="T-Score" options={["68%", "90%", "98%"]} /> : undefined}
-        {fspec.percentile_rank === true ? <NumberField label="Percentile Rank" /> : undefined}
-        {fspec.descriptive_range === true ? <SelectBox label="Descriptive Range" options={["Below Average", "Average", "Above Average"]} /> : undefined}
-        {fspec.confidence_interval === true ? <NumberField label="Confidence Interval" /> : undefined}
+        {ts === true ? jsx_ts : undefined}
+        {pr === true ? jsx_pr : undefined}
+        {dr === true ? jsx_dr : undefined}
+        {ci === true ? jsx_ci : undefined}
       </div>
     </div>
   );
