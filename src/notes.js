@@ -10,15 +10,18 @@ export default props => {
         <Textarea
           label="Background Information (Optional)"
           rows={3}
-          onChange={props.onBackgroundInfoChange} />
+          onChange={props.onBackgroundInfoChange}
+          value={props.data.bg_info} />
         <Textarea
           label="Significant Background Information (Optional)"
           rows={10}
-          onChange={props.onSignificantBackgroundInfoChange} />
+          onChange={props.onSignificantBackgroundInfoChange}
+          value={props.data.sbg_info} />
         <Textarea
           label="Behaviors Observed During Testing (Optional)"
           rows={3}
-          onChange={props.onBehaviorsObservedDuringTestingChange} />
+          onChange={props.onBehaviorsObservedDuringTestingChange}
+          value={props.data.bodt_info} />
       </fieldset>
     </SingleElementContainer>
   );

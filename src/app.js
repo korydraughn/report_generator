@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React, {Component} from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ReportForm from './report_form';
+import Report from './report';
 
 export default class App extends Component
 {
@@ -8,11 +10,18 @@ export default class App extends Component
   {
     super(props);
 
+    const now = new Date();
+    const date = {
+      y: now.getFullYear(),
+      m: now.getMonth(),
+      d: now.getDate()
+    };
+
     this.state = {
       student: {
         name: "",
         gender: "",
-        date_of_birth: "",
+        date_of_birth: date,
         school: "",
         age: "",
         grade: ""
@@ -23,8 +32,8 @@ export default class App extends Component
         bodt_info: ""   // Behaviors Observed During Testing
       },
       tests: {
-        start_date: "",
-        end_date: "",
+        start_date: date,
+        end_date: date,
         data: {}
       }
     };
@@ -32,68 +41,86 @@ export default class App extends Component
 
   onStudentNameChange(e)
   {
-    console.log(e.target.value);
-    this.setState({ student: { name: e.target.value } });
+    this.setState({student: {...this.state.student, name: e.target.value}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
   onStudentGenderChange(e)
   {
-    console.log(e.target.value);
-    this.setState({ student: { gender: e.target.value } });
+    this.setState({student: {...this.state.student, gender: e.target.value}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
-  onStudentDateOfBirthChange(date_of_birth)
+  onStudentDateOfBirthChange(date)
   {
-    console.log(date_of_birth);
-    this.setState({student: {date_of_birth}});
+    const new_date = {
+      y: date.getFullYear(),
+      m: date.getMonth(),
+      d: date.getDate()
+    };
+
+    this.setState({student: {...this.state.student, date_of_birth: new_date}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
   onStudentSchoolChange(e)
   {
-    console.log(e.target.value);
-    this.setState({ student: { school: e.target.value } });
+    this.setState({student: {...this.state.student, school: e.target.value}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
-  onStudentTestDateStartChange(start_date)
+  onStudentTestDateStartChange(date)
   {
-    console.log(start_date);
-    this.setState({tests: {start_date}});
+    const new_date = {
+      y: date.getFullYear(),
+      m: date.getMonth(),
+      d: date.getDate()
+    };
+
+    this.setState({tests: {...this.state.tests, start_date: new_date}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
-  onStudentTestDateEndChange(end_date)
+  onStudentTestDateEndChange(date)
   {
-    console.log(end_date);
-    this.setState({tests: {end_date}});
+    const new_date = {
+      y: date.getFullYear(),
+      m: date.getMonth(),
+      d: date.getDate()
+    };
+
+    this.setState({tests: {...this.state.tests, end_date: new_date}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
   onStudentAgeChange(e)
   {
-    console.log(e.target.value);
-    this.setState({ student: { age: e.target.value } });
+    this.setState({student: {...this.state.student, age: e.target.value}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
   onStudentGradeChange(e)
   {
-    console.log(e.target.value);
-    this.setState({ student: { grade: e.target.value } });
+    this.setState({student: {...this.state.student, grade: e.target.value}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
   onBackgroundInfoChange(e)
   {
-    console.log(e.target.value);
-    this.setState({notes: {bg_info: e.target.value}});
+    this.setState({notes: {...this.state.notes, bg_info: e.target.value}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
   onSignificantBackgroundInfoChange(e)
   {
-    console.log(e.target.value);
-    this.setState({notes: {sbg_info: e.target.value}});
+    this.setState({notes: {...this.state.notes, sbg_info: e.target.value}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
   onBehaviorsObservedDuringTestingChange(e)
   {
-    console.log(e.target.value);
-    this.setState({notes: {bodt_info: e.target.value}});
+    this.setState({notes: {...this.state.notes, bodt_info: e.target.value}});
+    setTimeout(() => console.log(this.state), 250);
   }
 
   onTestListChange(tests)
@@ -192,9 +219,12 @@ export default class App extends Component
     };
 
     return (
-      <div>
-        <ReportForm data={this.state} handlers={handlers} />
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path="/"><ReportForm data={this.state} handlers={handlers} /></Route>
+          <Route path="/report"><Report data={this.state} /></Route>
+        </Switch>
+      </Router>
     );
   }
 }

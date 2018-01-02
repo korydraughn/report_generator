@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import StudentInfo from './student_info';
 import Notes from './notes';
 import Testing from './testing';
@@ -13,7 +14,7 @@ export default props => {
 
   return (
     <div>
-      <StudentInfo data={data.student} {...student} />
+      <StudentInfo data={{...data.student, start_date: tests.start_date, end_date: tests.end_date}} {...student} />
       <br />
 
       <Notes data={data.notes} {...notes} />
@@ -23,7 +24,7 @@ export default props => {
 
       <SingleElementContainer>
           <button type="button" className="btn btn-lg btn-primary float-right">
-            Generate Report
+            <Link to="/report">Generate Report</Link>
           </button>
       </SingleElementContainer>
     </div>

@@ -11,7 +11,8 @@ export default props => {
         rows={props.rows}
         className="form-control"
         style={{resize: 'none'}}
-        onChange={props.onChange} />
+        onChange={props.onChange}
+        value={props.value} />
     </div>
   );
 };
