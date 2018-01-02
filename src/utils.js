@@ -82,34 +82,17 @@ export function SelectBox(props)
 
 export function DateField(props)
 {
-  const config = {
-    time: false,
-    format: "YYYY-MM-DD",
-    onChange: props.onChange,
-    //onCurrentDateChange: props.onChange,
-    defaultValue: new Date()
-    //currentDate: new Date()
-  };
-
-  if (props.value)
-  {
-    console.log(">>>> setting current/default date.")
-    const {y, m, d} = props.value;
-    config.defaultValue = new Date(y, m, d);
-    //config.currentDate = config.defaultValue = new Date(y, m, d);
-  }
+  const d = props.value;
 
   return (
     <div className="form-group">
       <label>{props.label}</label><br />
-      <DateTimePicker {...config} />
-      {/*<DateTimePicker
+      {/*<DateTimePicker {...config} />*/}
+      <DateTimePicker
         time={false}
         format="YYYY-MM-DD"
         onChange={props.onChange}
-        onCurrentDateChange={props.onChange}
-        defaultValue={config.defaultValue}
-      currentDate={config.currentDate} />*/}
+        defaultValue={d ? new Date(d.y, d.m, d.d) : null} />
     </div>
   );
 }

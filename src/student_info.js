@@ -10,7 +10,7 @@ export default props => {
   const {
     name, 
     gender, 
-    dob, 
+    date_of_birth, 
     school, 
     start_date, 
     end_date, 
@@ -26,7 +26,7 @@ export default props => {
           <Col>
             <TextField label="Student Name" onChange={props.onNameChange} value={name} />
             <SelectBox label="Student Gender" options={["Male", "Female"]} onChange={props.onGenderChange} value={gender} />
-            <DateField label="Student Date of Birth" onChange={props.onDateOfBirthChange} value={dob} />
+            <DateField label="Student Date of Birth" onChange={props.onDateOfBirthChange} value={date_of_birth} />
             <TextField label="Student School" onChange={props.onSchoolChange} value={school} />
           </Col>
           <Col>

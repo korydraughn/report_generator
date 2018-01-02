@@ -10,11 +10,12 @@ import 'bootstrap/dist/css/bootstrap-grid.css';
 
 export default props => {
   const {data} = props;
+  const {start_date, end_date} = data.tests;
   const {student, notes, tests} = props.handlers;
 
   return (
     <div>
-      <StudentInfo data={{...data.student, start_date: tests.start_date, end_date: tests.end_date}} {...student} />
+      <StudentInfo data={{...data.student, start_date, end_date}} {...student} />
       <br />
 
       <Notes data={data.notes} {...notes} />

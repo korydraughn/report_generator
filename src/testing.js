@@ -35,21 +35,22 @@ export default props => {
           </div>
         </fieldset>
       </SingleElementContainer>
-      {_.map(props.data, t => <Test key={t.id} spec={t} handlers={handlers} />)}
+      {_.map(props.data, t => <Test key={t.id} data={t} handlers={handlers} />)}
     </div>
   );
 }
 
 function Test(props)
 {
-  const spec = props.spec;
+  const {data, handlers} = props;
+  console.log("in Test: props => ", props);
 
   return (
     <div style={{marginTop: "20px"}}>
       <SingleElementContainer>
-        <h5><b><u>{spec.name}</u></b></h5>
-        {test_info.spec[spec.id].map((fields_spec, i) => {
-          return <TestInfo key={i} test_id={spec.id} fields_spec={fields_spec} {...props.handlers} />;
+        <h5><b><u>{data.name}</u></b></h5>
+        {test_info.spec[data.id].map((fields_spec, i) => {
+          return <TestInfo key={i} data={data} fields_spec={fields_spec} {...handlers} />;
         })}
       </SingleElementContainer>
     </div>
@@ -58,7 +59,7 @@ function Test(props)
 
 function TestInfo(props)
 {
-  const test_id = props.test_id;
+  const data = props.data;
   const fspec = props.fields_spec;
   const subtest_id = fspec.label;
   const ts = fspec.t_score;
@@ -66,13 +67,37 @@ function TestInfo(props)
   const dr = fspec.descriptive_range;
   const ci = fspec.confidence_interval;
 
+  const hdlrs = {
+    ts: e => props.onTScoreChange(data.id, subtest_id, e),
+    pr: e => props.onPercentileRankChange(data.id, subtest_id, e),
+    dr: e => props.onDescriptiveRange(data.id, subtest_id, e),
+    ci: e => props.onConfidenceIntervalChange(data.id, subtest_id, e)
+  };
+
+  const values = {
+    ts: "",
+    pr: "",
+    dr: "",
+    ci: ""
+  };
+
+  if (subtest_id in data)
+  {
+    const sti = data[subtest_id];
+
+    values.ts = sti.t_score || values.ts;
+    values.pr = sti.percentile_rank || values.pr;
+    values.dr = sti.descriptive_range || values.dr;
+    values.ci = sti.confidence_interval || values.ci;
+  }
+
   const t_scores = ["", "68%", "90%", "98%"];
   const ranges = ["", "Below Average", "Average", "Above Average"];
 
-  const jsx_ts = <SelectBox label="T-Score" options={t_scores} onChange={e => props.onTScoreChange(test_id, subtest_id, e)} />;
-  const jsx_pr = <NumberField label="Percentile Rank" onChange={e => props.onPercentileRankChange(test_id, subtest_id, e)} />; 
-  const jsx_dr = <SelectBox label="Descriptive Range" options={ranges} onChange={e => props.onDescriptiveRange(test_id, subtest_id, e)} />; 
-  const jsx_ci = <NumberField label="Confidence Interval" onChange={e => props.onConfidenceIntervalChange(test_id, subtest_id, e)} />; 
+  const jsx_ts = <SelectBox label="T-Score" options={t_scores} onChange={hdlrs.ts} value={values.ts} />;
+  const jsx_pr = <NumberField label="Percentile Rank" onChange={hdlrs.pr} value={values.pr} />; 
+  const jsx_dr = <SelectBox label="Descriptive Range" options={ranges} onChange={hdlrs.dr} value={values.dr} />; 
+  const jsx_ci = <NumberField label="Confidence Interval" onChange={hdlrs.ci} value={values.ci} />; 
 
   return (
     <div style={{marginTop: "2em"}}>
