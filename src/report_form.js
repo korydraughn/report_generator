@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap-grid.css';
 
 export default props => {
   const {data} = props;
-  const {student, notes, tests} = props.event_handlers;
+  const {student, notes, tests} = props.handlers;
 
   return (
     <div>

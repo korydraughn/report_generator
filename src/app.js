@@ -98,58 +98,102 @@ export default class App extends Component
 
   onTestListChange(tests)
   {
-    console.log(tests);
+    //this.setState((old_state, props) => {
+      //const length = _.size(old_state.tests);
+      //const state = {...old_state};
+      const length = _.size(this.state.tests.data);
+      const data = {...this.state.tests.data};
 
-    const init_cols = test_name => {
-      return {
-        t_score: ["68%", "90%", "98%"][_.random(2)],
-        percentile_rank: _.random(100),
-        descriptive_range: ["Below Average", "Average", "Above Average"][_.random(2)],
-        confidence_interval: _.random(100)
-      };
-    };
-
-    this.setState({
-      tests: {
-        data: _.zipObject(_.map(tests, test => test.id),
-                          _.map(tests, test => ({
-                              id: test.id,
-                              name: test.name,
-                              general_conceptual_ability: init_cols(),
-                              verbal_cluster: init_cols(),
-                              nonverbal_reasoning_cluster: init_cols(),
-                              spatial_ability_cluster: init_cols()
-                            })))
+      if (length === 0)
+      {
+        data[tests[0].id] = tests[0];
       }
-    });
+      else if (tests.length > length)
+      {
+        // Add a new test.
+        const diff = _.differenceBy(tests, _.map(data, t => ({id: t.id, name: t.name})), "id")[0];
+        data[diff.id] = diff;
+      }
+      else if (tests.length < length)
+      {
+        // Remove an existing test.
+        const diff = _.differenceBy(_.map(data, t => ({id: t.id, name: t.name})), tests, "id")[0];
+        delete data[diff.id];
+      }
+
+      this.setState({tests: {data}});
+      //return state;
+    //});
+
+    // Look at _.pick(...) and _.omit(...)
+    // const keys = tests.map(t => t.id);
+    // this.setState({tests: _.zipObject(keys, tests)});
+    setTimeout(() => console.log(this.state.tests), 250);
+  }
+
+  onTScoreChange(test_id, subtest_id, e)
+  {
+    const old_state = {...this.state.tests.data};
+    const new_state = {[test_id]: {[subtest_id]: {t_score: e.target.value}}};
+    //const new_state = {data: {[test_id]: {[subtest_id]: {t_score: e.target.value}}}};
+    this.setState({tests: {data: _.merge({}, old_state, new_state)}});
+    setTimeout(() => console.log(this.state.tests), 250);
+  }
+
+  onPercentileRankChange(test_id, subtest_id, e)
+  {
+    const old_state = {...this.state.tests.data};
+    const new_state = {[test_id]: {[subtest_id]: {percentile_rank: e.target.value}}};
+    this.setState({tests: {data: _.merge({}, old_state, new_state)}});
+    setTimeout(() => console.log(this.state.tests), 250);
+  }
+
+  onDescriptiveRange(test_id, subtest_id, e)
+  {
+    const old_state = {...this.state.tests.data};
+    const new_state = {[test_id]: {[subtest_id]: {descriptive_range: e.target.value}}};
+    this.setState({tests: {data: _.merge({}, old_state, new_state)}});
+    setTimeout(() => console.log(this.state.tests), 250);
+  }
+
+  onConfidenceIntervalChange(test_id, subtest_id, e)
+  {
+    const old_state = {...this.state.tests.data};
+    const new_state = {[test_id]: {[subtest_id]: {confidence_interval: e.target.value}}};
+    this.setState({tests: {data: _.merge({}, old_state, new_state)}});
+    setTimeout(() => console.log(this.state.tests), 250);
   }
 
   render()
   {
-    const event_handlers = {
+    const handlers = {
       student: {
-        onNameChange: e => this.onStudentNameChange(e),
-        onGenderChange: e => this.onStudentGenderChange(e),
-        onDateOfBirthChange: v => this.onStudentDateOfBirthChange(v),
-        onSchoolChange: e => this.onStudentSchoolChange(e),
-        onTestDateStartChange: e => this.onStudentTestDateStartChange(e),
-        onTestDateEndChange: e => this.onStudentTestDateEndChange(e),
-        onAgeChange: e => this.onStudentAgeChange(e),
-        onGradeChange: e => this.onStudentGradeChange(e)
+        onNameChange: this.onStudentNameChange.bind(this),
+        onGenderChange: this.onStudentGenderChange.bind(this),
+        onDateOfBirthChange: this.onStudentDateOfBirthChange.bind(this),
+        onSchoolChange: this.onStudentSchoolChange.bind(this),
+        onTestDateStartChange: this.onStudentTestDateStartChange.bind(this),
+        onTestDateEndChange: this.onStudentTestDateEndChange.bind(this),
+        onAgeChange: this.onStudentAgeChange.bind(this),
+        onGradeChange: this.onStudentGradeChange.bind(this)
       },
       notes: {
-        onBackgroundInfoChange: e => this.onBackgroundInfoChange(e),
-        onSignificantBackgroundInfoChange: e => this.onSignificantBackgroundInfoChange(e),
-        onBehaviorsObservedDuringTestingChange: e => this.onBehaviorsObservedDuringTestingChange(e)
+        onBackgroundInfoChange: this.onBackgroundInfoChange.bind(this),
+        onSignificantBackgroundInfoChange: this.onSignificantBackgroundInfoChange.bind(this),
+        onBehaviorsObservedDuringTestingChange: this.onBehaviorsObservedDuringTestingChange.bind(this)
       },
       tests: {
-        onListChange: e => this.onTestListChange(e)
+        onTestListChange: this.onTestListChange.bind(this),
+        onTScoreChange: this.onTScoreChange.bind(this),
+        onPercentileRankChange: this.onPercentileRankChange.bind(this),
+        onDescriptiveRange: this.onDescriptiveRange.bind(this),
+        onConfidenceIntervalChange: this.onConfidenceIntervalChange.bind(this)
       }
     };
 
     return (
       <div>
-        <ReportForm data={this.state} event_handlers={event_handlers} />
+        <ReportForm data={this.state} handlers={handlers} />
       </div>
     );
   }
