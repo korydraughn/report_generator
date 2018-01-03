@@ -20,16 +20,17 @@ export default class App extends Component
     this.state = {
       student: {
         name: "",
-        gender: "",
+        gender: "Male",
         date_of_birth: date,
         school: "",
         age: "",
-        grade: ""
+        grade: "Pre-K"
       },
       notes: {
-        bg_info: "",    // Background Info.
-        sbg_info: "",   // Significant Background Info.
-        bodt_info: ""   // Behaviors Observed During Testing
+        rfr: "",   // Background Info.
+        sbg: "",   // Significant Background Info.
+        bodt: "",  // Behaviors Observed During Testing
+        sac: ""    // Summary & Conclusion
       },
       tests: {
         start_date: date,
@@ -105,56 +106,56 @@ export default class App extends Component
     setTimeout(() => console.log(this.state), 250);
   }
 
-  onBackgroundInfoChange(e)
+  onReasonForReferralChange(e)
   {
-    this.setState({notes: {...this.state.notes, bg_info: e.target.value}});
+    this.setState({notes: {...this.state.notes, rfr: e.target.value}});
     setTimeout(() => console.log(this.state), 250);
   }
 
   onSignificantBackgroundInfoChange(e)
   {
-    this.setState({notes: {...this.state.notes, sbg_info: e.target.value}});
+    this.setState({notes: {...this.state.notes, sbg: e.target.value}});
     setTimeout(() => console.log(this.state), 250);
   }
 
   onBehaviorsObservedDuringTestingChange(e)
   {
-    this.setState({notes: {...this.state.notes, bodt_info: e.target.value}});
+    this.setState({notes: {...this.state.notes, bodt: e.target.value}});
+    setTimeout(() => console.log(this.state), 250);
+  }
+
+  onSummaryAndConclusionsChange(e)
+  {
+    this.setState({notes: {...this.state.notes, sac: e.target.value}});
     setTimeout(() => console.log(this.state), 250);
   }
 
   onTestListChange(tests)
   {
-    //this.setState((old_state, props) => {
-      //const length = _.size(old_state.tests);
-      //const state = {...old_state};
-      const length = _.size(this.state.tests.data);
-      const data = {...this.state.tests.data};
+    const state = {...this.state.tests};
+    const length = _.size(this.state.tests.data);
+    const data = state.data;
 
-      if (length === 0)
-      {
-        data[tests[0].id] = tests[0];
-      }
-      else if (tests.length > length)
-      {
-        // Add a new test.
-        const diff = _.differenceBy(tests, _.map(data, t => ({id: t.id, name: t.name})), "id")[0];
-        data[diff.id] = diff;
-      }
-      else if (tests.length < length)
-      {
-        // Remove an existing test.
-        const diff = _.differenceBy(_.map(data, t => ({id: t.id, name: t.name})), tests, "id")[0];
-        delete data[diff.id];
-      }
+    if (length === 0)
+    {
+      data[tests[0].id] = tests[0];
+    }
+    else if (tests.length > length)
+    {
+      // Add a new test.
+      const state_tests = _.map(data, t => ({id: t.id, name: t.name}));
+      const diff = _.differenceBy(tests, state_tests, "id")[0];
+      data[diff.id] = diff;
+    }
+    else if (tests.length < length)
+    {
+      // Remove an existing test.
+      const state_tests = _.map(data, t => ({id: t.id, name: t.name}));
+      const diff = _.differenceBy(state_tests, tests, "id")[0];
+      delete data[diff.id];
+    }
 
-      this.setState({tests: {data}});
-      //return state;
-    //});
-
-    // Look at _.pick(...) and _.omit(...)
-    // const keys = tests.map(t => t.id);
-    // this.setState({tests: _.zipObject(keys, tests)});
+    this.setState({tests: state});
     setTimeout(() => console.log(this.state.tests), 250);
   }
 
@@ -162,8 +163,8 @@ export default class App extends Component
   {
     const old_state = {...this.state.tests.data};
     const new_state = {[test_id]: {[subtest_id]: {t_score: e.target.value}}};
-    //const new_state = {data: {[test_id]: {[subtest_id]: {t_score: e.target.value}}}};
-    this.setState({tests: {data: _.merge({}, old_state, new_state)}});
+    const {start_date, end_date} = this.state.tests;
+    this.setState({tests: {start_date, end_date, data: _.merge({}, old_state, new_state)}});
     setTimeout(() => console.log(this.state.tests), 250);
   }
 
@@ -171,7 +172,8 @@ export default class App extends Component
   {
     const old_state = {...this.state.tests.data};
     const new_state = {[test_id]: {[subtest_id]: {percentile_rank: e.target.value}}};
-    this.setState({tests: {data: _.merge({}, old_state, new_state)}});
+    const {start_date, end_date} = this.state.tests;
+    this.setState({tests: {start_date, end_date, data: _.merge({}, old_state, new_state)}});
     setTimeout(() => console.log(this.state.tests), 250);
   }
 
@@ -179,7 +181,8 @@ export default class App extends Component
   {
     const old_state = {...this.state.tests.data};
     const new_state = {[test_id]: {[subtest_id]: {descriptive_range: e.target.value}}};
-    this.setState({tests: {data: _.merge({}, old_state, new_state)}});
+    const {start_date, end_date} = this.state.tests;
+    this.setState({tests: {start_date, end_date, data: _.merge({}, old_state, new_state)}});
     setTimeout(() => console.log(this.state.tests), 250);
   }
 
@@ -187,7 +190,8 @@ export default class App extends Component
   {
     const old_state = {...this.state.tests.data};
     const new_state = {[test_id]: {[subtest_id]: {confidence_interval: e.target.value}}};
-    this.setState({tests: {data: _.merge({}, old_state, new_state)}});
+    const {start_date, end_date} = this.state.tests;
+    this.setState({tests: {start_date, end_date, data: _.merge({}, old_state, new_state)}});
     setTimeout(() => console.log(this.state.tests), 250);
   }
 
@@ -205,9 +209,10 @@ export default class App extends Component
         onGradeChange: this.onStudentGradeChange.bind(this)
       },
       notes: {
-        onBackgroundInfoChange: this.onBackgroundInfoChange.bind(this),
+        onReasonForReferralChange: this.onReasonForReferralChange.bind(this),
         onSignificantBackgroundInfoChange: this.onSignificantBackgroundInfoChange.bind(this),
-        onBehaviorsObservedDuringTestingChange: this.onBehaviorsObservedDuringTestingChange.bind(this)
+        onBehaviorsObservedDuringTestingChange: this.onBehaviorsObservedDuringTestingChange.bind(this),
+        onSummaryAndConclusionsChange: this.onSummaryAndConclusionsChange.bind(this)
       },
       tests: {
         onTestListChange: this.onTestListChange.bind(this),

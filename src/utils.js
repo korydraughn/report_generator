@@ -87,7 +87,6 @@ export function DateField(props)
   return (
     <div className="form-group">
       <label>{props.label}</label><br />
-      {/*<DateTimePicker {...config} />*/}
       <DateTimePicker
         time={false}
         format="YYYY-MM-DD"

@@ -24,9 +24,11 @@ export default props => {
       <Testing data={data.tests.data} {...tests} />
 
       <SingleElementContainer>
+        <Link to="/report">
           <button type="button" className="btn btn-lg btn-primary float-right">
-            <Link to="/report">Generate Report</Link>
+            Generate Report
           </button>
+        </Link>
       </SingleElementContainer>
     </div>
   );

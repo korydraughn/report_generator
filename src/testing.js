@@ -31,7 +31,8 @@ export default props => {
               data={tests}
               valueField="id"
               textField="name"
-              onChange={props.onTestListChange} />
+              onChange={props.onTestListChange}
+              defaultValue={_.map(props.data, t => ({id: t.id, name: t.name}))} />
           </div>
         </fieldset>
       </SingleElementContainer>
@@ -43,7 +44,6 @@ export default props => {
 function Test(props)
 {
   const {data, handlers} = props;
-  console.log("in Test: props => ", props);
 
   return (
     <div style={{marginTop: "20px"}}>
