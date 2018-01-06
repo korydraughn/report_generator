@@ -24,7 +24,8 @@ export default class App extends Component
         date_of_birth: date,
         school: "",
         age: "",
-        grade: "Pre-K"
+        grade: "Pre-K",
+        admin: ""
       },
       notes: {
         rfr: "",   // Background Info.
@@ -103,6 +104,12 @@ export default class App extends Component
   onStudentGradeChange(e)
   {
     this.setState({student: {...this.state.student, grade: e.target.value}});
+    setTimeout(() => console.log(this.state), 250);
+  }
+
+  onAdminChange(e)
+  {
+    this.setState({student: {...this.state.student, admin: e.target.value}});
     setTimeout(() => console.log(this.state), 250);
   }
 
@@ -206,7 +213,8 @@ export default class App extends Component
         onTestDateStartChange: this.onStudentTestDateStartChange.bind(this),
         onTestDateEndChange: this.onStudentTestDateEndChange.bind(this),
         onAgeChange: this.onStudentAgeChange.bind(this),
-        onGradeChange: this.onStudentGradeChange.bind(this)
+        onGradeChange: this.onStudentGradeChange.bind(this),
+        onAdminChange: this.onAdminChange.bind(this)
       },
       notes: {
         onReasonForReferralChange: this.onReasonForReferralChange.bind(this),

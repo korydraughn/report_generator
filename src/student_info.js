@@ -15,7 +15,8 @@ export default props => {
     start_date, 
     end_date, 
     age, 
-    grade
+    grade,
+    admin
   } = props.data;
 
   return (
@@ -36,6 +37,7 @@ export default props => {
             </Row>
             <NumberField label="Age at Testing" onChange={props.onAgeChange} value={age} />
             <SelectBox label="Grade" options={["Pre-K", ..._.range(1, 13)]} onChange={props.onGradeChange} value={grade} />
+            <TextField label="Examiner" onChange={props.onAdminChange} value={admin} />
           </Col>
         </Row>
       </fieldset>
