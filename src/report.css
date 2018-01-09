@@ -1,0 +1,11 @@
+@page report {
+  size: 8in 11in; 
+}
+
+.report {
+  page: report;
+}
+
+.page-break {
+  break-after: always;
+}

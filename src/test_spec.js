@@ -59,7 +59,7 @@ export const spec = {
       label: "Letter-Word ID", 
       t_score: true
     }, {
-      label: "Work Attack", 
+      label: "Word Attack", 
       t_score: true
     }, {
       label: "Reading Comprehension", 

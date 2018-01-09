@@ -35,7 +35,7 @@ export default props => {
               <Col><DateField label="Date Administered - Start" onChange={props.onTestDateStartChange} value={start_date} /></Col>
               <Col><DateField label="Date Administered - End" onChange={props.onTestDateEndChange} value={end_date} /></Col>
             </Row>
-            <NumberField label="Age at Testing" onChange={props.onAgeChange} value={age} />
+            <TextField label="Age at Testing" onChange={props.onAgeChange} value={age} />
             <SelectBox label="Grade" options={["Pre-K", ..._.range(1, 13)]} onChange={props.onGradeChange} value={grade} />
             <TextField label="Examiner" onChange={props.onAdminChange} value={admin} />
           </Col>
