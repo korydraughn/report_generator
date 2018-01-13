@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import {DateTimePicker} from 'react-widgets';
-import {Form, Text, Select, FormField} from 'react-form';
+import {Form, Text, Select, TextArea as ReactFormTextArea, FormField} from 'react-form';
 import {ContainerFluid, Row, Col} from './utils';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -19,6 +19,19 @@ export function TextField(props)
     <div className="form-group">
       <label htmlFor={name}>{label}</label><br />
       <Text field={name} id={name} className="form-control" />
+    </div>
+  );
+}
+
+export function TextArea(props)
+{
+  const {name, label, rows} = props;
+  const style = {resize: "none"};
+
+  return (
+    <div className="form-group">
+      <label htmlFor={name}>{label}</label>
+      <ReactFormTextArea field={name} rows={rows} className="form-control" style={style} />
     </div>
   );
 }
@@ -87,7 +100,7 @@ const DateFieldImpl = FormField(props => {
             d: date.getDate()
           });
         }}
-        _defaultValue={d ? new Date(d.y, d.m, d.d) : null}
+        defaultValue={d ? new Date(d.y, d.m, d.d) : null}
         onBlur={() => setTouched()}
         {...rest} />
       {error ? <Message color="red" message={error} /> : null}

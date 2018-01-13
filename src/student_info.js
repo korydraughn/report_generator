@@ -1,45 +1,49 @@
 import _ from 'lodash';
 import React from 'react';
-import {ContainerFluid, Row, Col, TextField,
-        NumberField, DateField, SelectBox} from './utils';
+import {Form, NestedForm} from 'react-form';
+import {ContainerFluid, Row, Col} from './utils';
+import {TextField, SelectBox, DateField} from './form_inputs';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
 
 export default props => {
-  const {
-    name, 
-    gender, 
-    date_of_birth, 
-    school, 
-    start_date, 
-    end_date, 
-    age, 
-    grade,
-    admin
-  } = props.data;
+  const gender_options = [
+    {label: "Male", value: "M"},
+    {label: "Female", value: "F"}
+  ];
+
+  const grade_options = ["Pre-K", ..._.range(1, 13)].map(g => ({label: g, value: g}));
 
   return (
     <ContainerFluid>
       <fieldset>
         <legend>Student Demographics</legend>
-        <Row>
-          <Col>
-            <TextField label="Student Name" onChange={props.onNameChange} value={name} />
-            <SelectBox label="Student Gender" options={["Male", "Female"]} onChange={props.onGenderChange} value={gender} />
-            <DateField label="Student Date of Birth" onChange={props.onDateOfBirthChange} value={date_of_birth} />
-            <TextField label="Student School" onChange={props.onSchoolChange} value={school} />
-          </Col>
-          <Col>
-            <Row>
-              <Col><DateField label="Date Administered - Start" onChange={props.onTestDateStartChange} value={start_date} /></Col>
-              <Col><DateField label="Date Administered - End" onChange={props.onTestDateEndChange} value={end_date} /></Col>
-            </Row>
-            <TextField label="Age at Testing" onChange={props.onAgeChange} value={age} />
-            <SelectBox label="Grade" options={["Pre-K", ..._.range(1, 13)]} onChange={props.onGradeChange} value={grade} />
-            <TextField label="Examiner" onChange={props.onAdminChange} value={admin} />
-          </Col>
-        </Row>
+        <NestedForm field="student">
+          <Form>
+            {formApi => (
+              <div id="student-info-form">
+                <Row>
+                  <Col>
+                    <TextField name="name" label="Student Name" />
+                    <SelectBox name="gender" label="Student Gender" options={gender_options} />
+                    <TextField name="school" label="Student School" />
+                    <DateField name="dob" label="Student Date of Birth" />
+                  </Col>
+                  <Col>
+                    <Row>
+                      <Col><DateField name="testing_started" label="Date Administered - Start" /></Col>
+                      <Col><DateField name="testing_ended" label="Date Administered - End" /></Col>
+                    </Row>
+                    <TextField name="age" label="Age at Testing" />
+                    <SelectBox name="grade" label="Grade" options={grade_options} />
+                    <TextField name="examiner" label="Examiner" />
+                  </Col>
+                </Row>
+              </div>
+            )}
+          </Form>
+        </NestedForm>
       </fieldset>
     </ContainerFluid>
   );
