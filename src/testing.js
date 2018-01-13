@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import React, {Component} from 'react';
+import React from 'react';
 import {Multiselect} from 'react-widgets';
-import {SingleElementContainer, ContainerFluid, Row, Col} from './utils';
-import {TextField, SelectBox, NumberField} from './utils';
+import {SingleElementContainer} from './utils';
+import {SelectBox, NumberField} from './utils';
 import * as test_info from './test_spec';
 
 import 'react-widgets/dist/css/react-widgets.css';

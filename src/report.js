@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import React, {Component} from 'react';
-import {Link, Route} from 'react-router-dom';
+import React from 'react';
 import {ContainerFluid, Row, Col} from './utils';
 import {DAS_II, WJ4_ACH} from './test_spec';
 

@@ -1,9 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import {DateTimePicker} from 'react-widgets';
-import {Form, Text, Select, TextArea as ReactFormTextArea, FormField} from 'react-form';
-import {ContainerFluid, Row, Col} from './utils';
+import {Text, Select, TextArea as ReactFormTextArea, FormField} from 'react-form';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
