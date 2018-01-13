@@ -202,10 +202,17 @@ export default class App extends Component
     setTimeout(() => console.log(this.state.tests), 250);
   }
 
+  setStudentInfoState(student_info)
+  {
+    this.setState({student: student_info});
+    setTimeout(() => console.log(this.state), 250);
+  }
+
   render()
   {
     const handlers = {
       student: {
+        setState: this.setStudentInfoState.bind(this),
         onNameChange: this.onStudentNameChange.bind(this),
         onGenderChange: this.onStudentGenderChange.bind(this),
         onDateOfBirthChange: this.onStudentDateOfBirthChange.bind(this),
