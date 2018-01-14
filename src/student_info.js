@@ -20,24 +20,24 @@ export default props => {
       <fieldset>
         <legend>Student Demographics</legend>
         <NestedForm field="student">
-          <Form>
+          <Form validateError={errorValidator}>
             {formApi => (
               <div id="student-info-form">
                 <Row>
                   <Col>
-                    <TextField name="name" label="Student Name" />
-                    <SelectBox name="gender" label="Student Gender" options={gender_options} />
-                    <TextField name="school" label="Student School" />
-                    <DateField name="dob" label="Student Date of Birth" />
+                    <TextField name="name" label="Student Name" error={formApi.errors.name} />
+                    <SelectBox name="gender" label="Student Gender" options={gender_options} error={formApi.errors.gender} />
+                    <TextField name="school" label="Student School" error={formApi.errors.school} />
+                    <DateField name="dob" label="Student Date of Birth" error={formApi.errors.dob} />
                   </Col>
                   <Col>
                     <Row>
-                      <Col><DateField name="testing_started" label="Date Administered - Start" /></Col>
-                      <Col><DateField name="testing_ended" label="Date Administered - End" /></Col>
+                      <Col><DateField name="testing_started" label="Date Administered - Start" error={formApi.errors.testing_started} /></Col>
+                      <Col><DateField name="testing_ended" label="Date Administered - End" error={formApi.errors.testing_ended} /></Col>
                     </Row>
-                    <TextField name="age" label="Age at Testing" />
-                    <SelectBox name="grade" label="Grade" options={grade_options} />
-                    <TextField name="examiner" label="Examiner" />
+                    <TextField name="age" label="Age at Testing" error={formApi.errors.age} />
+                    <SelectBox name="grade" label="Grade" options={grade_options} error={formApi.errors.grade} />
+                    <TextField name="examiner" label="Examiner" error={formApi.errors.examiner} />
                   </Col>
                 </Row>
               </div>
@@ -47,4 +47,60 @@ export default props => {
       </fieldset>
     </ContainerFluid>
   );
+}
+
+export function errorValidator(values)
+{
+  const {
+    name,
+    gender,
+    school,
+    dob,
+    testing_started,
+    testing_ended,
+    age,
+    grade,
+    examiner
+  } = values;
+
+  const errors = {
+    name: null,
+    gender: null,
+    school: null,
+    dob: null,
+    testing_started: null,
+    testing_ended: null,
+    age: null,
+    grade: null,
+    examiner: null
+  };
+
+  if (!name)
+    errors.name = "Student Name is a required input.";
+
+  if (!gender)
+    errors.gender = "Student Gender is a required input.";
+
+  if (!school)
+    errors.school = "School is a required input.";
+
+  if (!dob)
+    errors.dob = "Date of Birth is a required input.";
+
+  if (!testing_started)
+    errors.testing_started = "Testing Start Date is a required input.";
+
+  if (!testing_ended)
+    errors.testing_ended = "Testing End Date is a required input.";
+
+  if (!age || !/\d+/.test(age))
+    errors.age = "Age is a required input.";
+
+  if (!grade)
+    errors.grade = "Grade is a required input.";
+
+  if (!examiner)
+    errors.examiner = "Examiner is a required input.";
+
+  return errors;
 }

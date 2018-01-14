@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
-import {Multiselect} from 'react-widgets';
+import {Form, NestedForm} from 'react-form';
+import {MultiSelect} from './form_inputs';
 import {SingleElementContainer} from './utils';
 import {SelectBox, NumberField} from './utils';
 import * as test_info from './test_spec';
@@ -25,6 +26,29 @@ export default props => {
       <SingleElementContainer>
         <fieldset>
           <legend>Testing</legend>
+          <NestedForm field="testing">
+            <Form>
+              {formApi => (
+                <MultiSelect
+                  name="selected_tests"
+                  label="Tests Administered"
+                  options={tests}
+                  valueField="id"
+                  textField="name"
+                  defaultValue={_.map(props.data, t => ({id: t.id, name: t.name}))} />
+              )}
+            </Form>
+          </NestedForm>
+        </fieldset>
+      </SingleElementContainer>
+      {/*_.map(props.data, t => <Test key={t.id} data={t} handlers={handlers} />)*/}
+    </div>
+  );
+    {/*
+    <div>
+      <SingleElementContainer>
+        <fieldset>
+          <legend>Testing</legend>
           <div className="form-group">
             <label>Tests Administered</label>
             <Multiselect
@@ -38,7 +62,7 @@ export default props => {
       </SingleElementContainer>
       {_.map(props.data, t => <Test key={t.id} data={t} handlers={handlers} />)}
     </div>
-  );
+    */}
 }
 
 function Test(props)

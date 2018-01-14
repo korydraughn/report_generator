@@ -9,25 +9,29 @@ export default props => {
       <fieldset>
         <legend>Notes</legend>
         <NestedForm field="notes">
-          <Form>
+          <Form validateWarning={warningValidator}>
             {formApi => (
               <div id="notes-form">
                 <TextArea
                   name="rfr"
                   label="Reason For Referral (Optional)"
-                  rows={3} />
+                  rows={3}
+                  warning={formApi.warnings.rfr} />
                 <TextArea
                   name="sbi"
                   label="Significant Background Information (Optional)"
-                  rows={10} />
+                  rows={10}
+                  warning={formApi.warnings.sbi} />
                 <TextArea
                   name="bodt"
                   label="Behaviors Observed During Testing (Optional)"
-                  rows={3} />
+                  rows={3}
+                  warning={formApi.warnings.bodt} />
                 <TextArea
                   name="sac"
                   label="Summary &amp; Conclusions"
-                  rows={3} />
+                  rows={3}
+                  warning={formApi.warnings.sac} />
               </div>
             )}
           </Form>
@@ -36,3 +40,15 @@ export default props => {
     </SingleElementContainer>
   );
 };
+
+export function warningValidator(values)
+{
+  const {rfr, sbi, bodt, sac} = values;
+
+  return {
+    rfr: !rfr ? "It is highly recommended that you provide this information." : null,
+    sbi: !sbi ? "It is highly recommended that you provide this information." : null,
+    bodt: !bodt ? "It is highly recommended that you provide this information." : null,
+    sac: !sac ? "It is highly recommended that you provide this information." : null
+  };
+}

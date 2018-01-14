@@ -13,7 +13,7 @@ function onClick(e, props)
 {
   //e.preventDefault();
   //console.log(e);
-  //console.log(props);
+  console.log(props);
 }
 
 export default withRouter(props => {
