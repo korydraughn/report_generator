@@ -27,8 +27,8 @@ export function TextField(props)
     <div className="form-group">
       <label htmlFor={name}>{label}</label><br />
       <Text field={name} id={name} className="form-control" />
-      <Message color="red" message={error} />
-      <Message color="orange" message={warning} />
+      {error ? <Message color="red" message={error} /> : null}
+      {!error && warning ? <Message color="orange" message={warning} /> : null}
     </div>
   );
 }
@@ -42,8 +42,8 @@ export function TextArea(props)
     <div className="form-group">
       <label htmlFor={name}>{label}</label>
       <ReactFormTextArea field={name} rows={rows} className="form-control" style={style} />
-      <Message color="red" message={error} />
-      <Message color="orange" message={warning} />
+      {error ? <Message color="red" message={error} /> : null}
+      {!error && warning ? <Message color="orange" message={warning} /> : null}
     </div>
   );
 }
@@ -56,8 +56,8 @@ export function SelectBox(props)
     <div className="form-group">
       <label htmlFor={name}>{label}</label><br />
       <Select field={name} id={name} options={options} className="form-control" />
-      <Message color="red" message={error} />
-      <Message color="orange" message={warning} />
+      {error ? <Message color="red" message={error} /> : null}
+      {!error && warning ? <Message color="orange" message={warning} /> : null}
     </div>
   );
 }
@@ -95,7 +95,7 @@ const DateFieldImpl = FormField(props => {
         onChange={date => {
           if (!date)
           {
-            setError("Invalid Date");
+            //setError("Invalid Date");
             return;
           }
 

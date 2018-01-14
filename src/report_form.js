@@ -24,7 +24,7 @@ export default withRouter(props => {
 
   return (
     <div>
-      <Form onSubmit={submittedValues => console.log({...submittedValues})}>
+      <Form onSubmit={(submittedValues, e, formApi) => console.log("submitted = ", {...submittedValues}, "other = ", e, "formApi = ", formApi)}>
         {formApi => (
           <form onSubmit={formApi.submitForm} id="main-form">
             <StudentInfo data={{...data.student, start_date, end_date}} {...student} />
