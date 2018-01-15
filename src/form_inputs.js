@@ -164,7 +164,7 @@ export function MultiSelect(props)
   );
 }
 
-function Message({color, message})
+export function Message({color, message})
 {
   return (
     <div style={{color}}>

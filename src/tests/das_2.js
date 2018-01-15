@@ -1,11 +1,14 @@
 import _ from "lodash";
 import React from "react";
-import {Form, NestedForm, Text, Select} from "react-form";
+import {Form, NestedForm} from "react-form";
+import {TextField, SelectField} from "./component_utils";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
 
 export default props => {
+  const {data} = props;
+
   const subtests = [
     {name: <b>General Conceptual Ability</b>, id: "gca"},
     {name: <b>Verbal Cluster</b>, id: "vc"},
@@ -36,7 +39,7 @@ export default props => {
                 </tr>
               </thead>
               <tbody>
-                {subtests.map(t => <TableRow key={t.id} subtest={t} />)}
+                {subtests.map(t => <TableRow key={t.id} subtest={t} data={data ? data[t.id] : null} />)}
               </tbody>
             </table>
           )}
@@ -48,7 +51,7 @@ export default props => {
 
 function TableRow(props)
 {
-  const {subtest} = props;
+  const {subtest, data} = props;
 
   const options = ["Above Average", "Average", "Below Average"].map(o => ({
     label: o,
@@ -61,17 +64,48 @@ function TableRow(props)
 
   return (
     <NestedForm field={subtest.id}>
-      <Form>
+      <Form
+        defaultValues={data}
+        validateError={values => errorValidator(values, showAllInputs(subtest.id))}>
         {formApi => (
           <tr className="text-center">
             <td>{subtest.name}</td>
-            <td><Text field="tScore" className="form-control" /></td>
-            <td>{showAllInputs(subtest.id) ? <Text field="pRank" className="form-control" /> : null}</td>
-            <td>{showAllInputs(subtest.id) ? <Select field="dRange" options={options} className="form-control" /> : null}</td>
-            <td>{showAllInputs(subtest.id) ? <Text field="cInterval" className="form-control" /> : null}</td>
+            <td><TextField field="tScore" error={formApi.errors.tScore} /></td>
+            <td>{showAllInputs(subtest.id) ? <TextField field="pRank" error={formApi.errors.pRank} /> : null}</td>
+            <td>{showAllInputs(subtest.id) ? <SelectField field="dRange" options={options} error={formApi.errors.dRange} /> : null}</td>
+            <td>{showAllInputs(subtest.id) ? <TextField field="cInterval" error={formApi.errors.cInterval} /> : null}</td>
           </tr>
         )}
       </Form>
     </NestedForm>
   );
+}
+
+function errorValidator(values, handleAllInputs)
+{
+  const {tScore, pRank, dRange, cInterval} = values;
+
+  const errors = {
+    tScore: null,
+    pRank: null,
+    dRange: null,
+    cInterval: null
+  };
+
+  if (!tScore)
+    errors.tScore = "T-Score is a required input.";
+
+  if (!handleAllInputs)
+    return errors;
+
+  if (!pRank)
+    errors.pRank = "Percentile Rank is a required input.";
+
+  if (!dRange)
+    errors.dRange = "Descriptive Range is a required input.";
+
+  if (!cInterval)
+    errors.cInterval = "Confidence Interval is a required input.";
+
+  return errors;
 }

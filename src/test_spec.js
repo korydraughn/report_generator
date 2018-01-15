@@ -1,5 +1,5 @@
-export const DAS_II  = "DAS-II";
-export const WJ4_ACH = "WJ4_ACH";
+export const DAS_II  = "das2";
+export const WJ4_ACH = "wj4";
 
 export const spec = {
   [DAS_II]: [

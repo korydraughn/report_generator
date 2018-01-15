@@ -37,7 +37,8 @@ export default class App extends Component
         sac: ""    // Summary & Conclusion
       },
       testing: {
-        tests_administered: []
+        tests_administered: [],
+        data: {}
       }
     };
   }
