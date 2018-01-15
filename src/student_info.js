@@ -20,7 +20,9 @@ export default props => {
       <fieldset>
         <legend>Student Demographics</legend>
         <NestedForm field="student">
-          <Form validateError={errorValidator}>
+          <Form
+            defaultValues={props.data}
+            validateError={errorValidator}>
             {formApi => (
               <div id="student-info-form">
                 <Row>
@@ -32,8 +34,8 @@ export default props => {
                   </Col>
                   <Col>
                     <Row>
-                      <Col><DateField name="testing_started" label="Date Administered - Start" error={formApi.errors.testing_started} /></Col>
-                      <Col><DateField name="testing_ended" label="Date Administered - End" error={formApi.errors.testing_ended} /></Col>
+                      <Col><DateField name="start_date" label="Date Administered - Start" error={formApi.errors.start_date} /></Col>
+                      <Col><DateField name="end_date" label="Date Administered - End" error={formApi.errors.end_date} /></Col>
                     </Row>
                     <TextField name="age" label="Age at Testing" error={formApi.errors.age} />
                     <SelectBox name="grade" label="Grade" options={grade_options} error={formApi.errors.grade} />
@@ -56,8 +58,8 @@ export function errorValidator(values)
     gender,
     school,
     dob,
-    testing_started,
-    testing_ended,
+    start_date,
+    end_date,
     age,
     grade,
     examiner
@@ -68,8 +70,8 @@ export function errorValidator(values)
     gender: null,
     school: null,
     dob: null,
-    testing_started: null,
-    testing_ended: null,
+    start_date: null,
+    end_date: null,
     age: null,
     grade: null,
     examiner: null
@@ -87,11 +89,11 @@ export function errorValidator(values)
   if (!dob)
     errors.dob = "Date of Birth is a required input.";
 
-  if (!testing_started)
-    errors.testing_started = "Testing Start Date is a required input.";
+  if (!start_date)
+    errors.start_date = "Testing Start Date is a required input.";
 
-  if (!testing_ended)
-    errors.testing_ended = "Testing End Date is a required input.";
+  if (!end_date)
+    errors.end_date = "Testing End Date is a required input.";
 
   if (!age || !/\d+/.test(age))
     errors.age = "Age is a required input.";

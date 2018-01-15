@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ReportForm from './report_form';
+import TestDetailsForm from './test_details_form';
 import Report from './report';
 
 export default class App extends Component
@@ -20,24 +21,22 @@ export default class App extends Component
     this.state = {
       student: {
         name: "",
-        gender: "Male",
-        date_of_birth: date,
+        gender: "",
+        dob: date,
         school: "",
         age: "",
-        grade: "Pre-K",
-        admin: ""
+        grade: "",
+        examiner: "",
+        start_date: date,
+        end_date: date
       },
       notes: {
         rfr: "",   // Background Info.
-        sbg: "",   // Significant Background Info.
+        sbgi: "",   // Significant Background Info.
         bodt: "",  // Behaviors Observed During Testing
         sac: ""    // Summary & Conclusion
       },
-      tests: {
-        start_date: date,
-        end_date: date,
-        data: {}
-      }
+      testing: {}
     };
   }
 
@@ -208,6 +207,12 @@ export default class App extends Component
     setTimeout(() => console.log(this.state), 250);
   }
 
+  setAppState(state)
+  {
+    this.setState(state);
+    setTimeout(() => console.debug(this.state), 250);
+  }
+
   render()
   {
     const handlers = {
@@ -235,13 +240,15 @@ export default class App extends Component
         onPercentileRankChange: this.onPercentileRankChange.bind(this),
         onDescriptiveRange: this.onDescriptiveRange.bind(this),
         onConfidenceIntervalChange: this.onConfidenceIntervalChange.bind(this)
-      }
+      },
+      setAppState: this.setAppState.bind(this)
     };
 
     return (
       <Router>
         <Switch>
           <Route exact path="/"><ReportForm data={this.state} handlers={handlers} /></Route>
+          <Route path="/test-details"><TestDetailsForm data={this.state} handlers={handlers} /></Route>
           <Route path="/report"><Report data={this.state} /></Route>
         </Switch>
       </Router>
