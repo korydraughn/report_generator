@@ -36,7 +36,9 @@ export default class App extends Component
         bodt: "",  // Behaviors Observed During Testing
         sac: ""    // Summary & Conclusion
       },
-      testing: {}
+      testing: {
+        tests_administered: []
+      }
     };
   }
 
@@ -201,12 +203,6 @@ export default class App extends Component
     setTimeout(() => console.log(this.state.tests), 250);
   }
 
-  setStudentInfoState(student_info)
-  {
-    this.setState({student: student_info});
-    setTimeout(() => console.log(this.state), 250);
-  }
-
   setAppState(state)
   {
     this.setState(state);
@@ -216,31 +212,6 @@ export default class App extends Component
   render()
   {
     const handlers = {
-      student: {
-        setState: this.setStudentInfoState.bind(this),
-        onNameChange: this.onStudentNameChange.bind(this),
-        onGenderChange: this.onStudentGenderChange.bind(this),
-        onDateOfBirthChange: this.onStudentDateOfBirthChange.bind(this),
-        onSchoolChange: this.onStudentSchoolChange.bind(this),
-        onTestDateStartChange: this.onStudentTestDateStartChange.bind(this),
-        onTestDateEndChange: this.onStudentTestDateEndChange.bind(this),
-        onAgeChange: this.onStudentAgeChange.bind(this),
-        onGradeChange: this.onStudentGradeChange.bind(this),
-        onAdminChange: this.onAdminChange.bind(this)
-      },
-      notes: {
-        onReasonForReferralChange: this.onReasonForReferralChange.bind(this),
-        onSignificantBackgroundInfoChange: this.onSignificantBackgroundInfoChange.bind(this),
-        onBehaviorsObservedDuringTestingChange: this.onBehaviorsObservedDuringTestingChange.bind(this),
-        onSummaryAndConclusionsChange: this.onSummaryAndConclusionsChange.bind(this)
-      },
-      tests: {
-        onTestListChange: this.onTestListChange.bind(this),
-        onTScoreChange: this.onTScoreChange.bind(this),
-        onPercentileRankChange: this.onPercentileRankChange.bind(this),
-        onDescriptiveRange: this.onDescriptiveRange.bind(this),
-        onConfidenceIntervalChange: this.onConfidenceIntervalChange.bind(this)
-      },
       setAppState: this.setAppState.bind(this)
     };
 
@@ -248,8 +219,8 @@ export default class App extends Component
       <Router>
         <Switch>
           <Route exact path="/"><ReportForm data={this.state} handlers={handlers} /></Route>
-          <Route path="/test-details"><TestDetailsForm data={this.state} handlers={handlers} /></Route>
-          <Route path="/report"><Report data={this.state.testing} /></Route>
+          <Route path="/test-details"><TestDetailsForm data={this.state.testing} handlers={handlers} /></Route>
+          <Route path="/report"><Report data={this.state} /></Route>
         </Switch>
       </Router>
     );
