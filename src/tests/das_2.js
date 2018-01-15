@@ -20,26 +20,29 @@ export default props => {
   ];
 
   return (
-    <NestedForm field="das2">
-      <Form>
-        {formApi => (
-          <table className="table table-bordered table-condensed">
-            <thead>
-              <tr className="text-center">
-                <th>Index or Subtest</th>
-                <th>Standard or T-Score</th>
-                <th>Percentile Rank</th>
-                <th>Descriptive Range</th>
-                <th>90% Confidence Interval</th>
-              </tr>
-            </thead>
-            <tbody>
-              {subtests.map(t => <TableRow key={t.id} subtest={t} />)}
-            </tbody>
-          </table>
-        )}
-      </Form>
-    </NestedForm>
+    <fieldset>
+      <legend>Differential Ability Scales - Second Edition (DAS-II)</legend>
+      <NestedForm field="das2">
+        <Form>
+          {formApi => (
+            <table className="table table-bordered table-condensed">
+              <thead>
+                <tr className="text-center">
+                  <th>Index or Subtest</th>
+                  <th>Standard or T-Score</th>
+                  <th>Percentile Rank</th>
+                  <th>Descriptive Range</th>
+                  <th>90% Confidence Interval</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subtests.map(t => <TableRow key={t.id} subtest={t} />)}
+              </tbody>
+            </table>
+          )}
+        </Form>
+      </NestedForm>
+    </fieldset>
   );
 };
 
@@ -52,6 +55,8 @@ function TableRow(props)
     value: o
   }));
 
+  // Theses subtests are the only subtests which expect a value for
+  // every column. The rest only expect T-Score to be filled.
   const showAllInputs = id => _.includes(["gca", "vc", "nvrc", "sac"], id);
 
   return (
@@ -60,10 +65,10 @@ function TableRow(props)
         {formApi => (
           <tr className="text-center">
             <td>{subtest.name}</td>
-            <td><Text field="t_score" className="form-control" /></td>
-            <td>{showAllInputs(subtest.id) ? <Text field="p_rank" className="form-control" /> : null}</td>
-            <td>{showAllInputs(subtest.id) ? <Select field="d_range" options={options} className="form-control" /> : null}</td>
-            <td>{showAllInputs(subtest.id) ? <Text field="c_interval" className="form-control" /> : null}</td>
+            <td><Text field="tScore" className="form-control" /></td>
+            <td>{showAllInputs(subtest.id) ? <Text field="pRank" className="form-control" /> : null}</td>
+            <td>{showAllInputs(subtest.id) ? <Select field="dRange" options={options} className="form-control" /> : null}</td>
+            <td>{showAllInputs(subtest.id) ? <Text field="cInterval" className="form-control" /> : null}</td>
           </tr>
         )}
       </Form>
