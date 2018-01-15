@@ -77,7 +77,6 @@ const DateFieldImpl = FormField(props => {
     getWarning,
     getSuccess,
     setValue,
-    setError,
     setTouched
   } = fieldApi;
 
@@ -94,10 +93,7 @@ const DateFieldImpl = FormField(props => {
         format="YYYY-MM-DD"
         onChange={date => {
           if (!date)
-          {
-            //setError("Invalid Date");
             return;
-          }
 
           setValue({
             y: date.getFullYear(),
@@ -130,7 +126,6 @@ export function DateField(props)
 const MultiSelectImpl = FormField(props => {
   const {
     fieldApi, 
-    onInput, 
     name, 
     label, 
     options,
@@ -143,7 +138,6 @@ const MultiSelectImpl = FormField(props => {
     getWarning,
     getSuccess,
     setValue,
-    setError,
     setTouched
   } = fieldApi;
 
@@ -156,10 +150,8 @@ const MultiSelectImpl = FormField(props => {
       <Multiselect
         name={name}
         data={options}
-        onChange={selections => {
-          setValue(selections);
-        }}
-        _defaultValue={getValue()}
+        onChange={selections => setValue(selections)}
+        defaultValue={getValue()}
         onBlur={() => setTouched()}
         {...rest} />
       {error ? <Message color="red" message={error} /> : null}

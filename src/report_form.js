@@ -45,7 +45,7 @@ export default withRouter(props => {
 
 function onSubmitSuccess(values, e, formApi, props)
 {
-  const {match, location, history} = props;
+  const {history} = props;
   const {setAppState} = props.handlers;
 
   setAppState(values);

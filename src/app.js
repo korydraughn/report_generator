@@ -249,7 +249,7 @@ export default class App extends Component
         <Switch>
           <Route exact path="/"><ReportForm data={this.state} handlers={handlers} /></Route>
           <Route path="/test-details"><TestDetailsForm data={this.state} handlers={handlers} /></Route>
-          <Route path="/report"><Report data={this.state} /></Route>
+          <Route path="/report"><Report data={this.state.testing} /></Route>
         </Switch>
       </Router>
     );
