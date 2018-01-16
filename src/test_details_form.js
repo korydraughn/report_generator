@@ -1,8 +1,6 @@
-import _ from "lodash";
-import React, {Component} from "react";
+import React from "react";
 import {withRouter} from 'react-router-dom';
 import {Form} from 'react-form';
-import {TextField, SelectBox, DateField} from "./form_inputs";
 import {SingleElementContainer} from "./utils";
 import DAS2 from "./tests/das_2";
 import WJ4 from "./tests/wj4_ach";
@@ -54,14 +52,12 @@ function Test(props)
 
 function onSubmitSuccess(values, e, formApi, props)
 {
-  console.debug("Values from Tests: ", values);
-
   const {history} = props;
   const {tests_administered} = props.data;
   const {setAppState} = props.handlers;
 
   setAppState({testing: {tests_administered, data: values}});
-  //history.push("/report");
+  history.push("/report");
 }
 
 function onSubmitFailure(errors, formApi, onSubmitError)
