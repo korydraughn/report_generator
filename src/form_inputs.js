@@ -10,6 +10,15 @@ import 'bootstrap/dist/css/bootstrap-grid.css';
 Moment.locale("en");
 momentLocalizer();
 
+export function Message({color, message})
+{
+  return (
+    <div style={{color}}>
+      <small>{message}</small>
+    </div>
+  );
+}
+
 export function TextField(props)
 {
   const {name, label, error, warning} = props;
@@ -160,15 +169,6 @@ export function MultiSelect(props)
     <div className="form-group">
       <label htmlFor={name}>{label}</label><br />
       <MultiSelectImpl field={name} {...props} />
-    </div>
-  );
-}
-
-export function Message({color, message})
-{
-  return (
-    <div style={{color}}>
-      <small>{message}</small>
     </div>
   );
 }

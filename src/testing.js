@@ -18,7 +18,9 @@ export default props => {
         <fieldset>
           <legend>Testing</legend>
           <NestedForm field="testing">
-            <Form defaultValues={props.data}>
+            <Form
+              defaultValues={props.data}
+              validateError={errorValidator}>
               {formApi => (
                 <MultiSelect
                   name="tests_administered"
@@ -34,3 +36,12 @@ export default props => {
     </div>
   );
 };
+
+function errorValidator(values)
+{
+  const {tests_administered} = values;
+
+  return {
+    tests_administered: tests_administered.length === 0 ? "You must select at least one Test" : null
+  };
+}
