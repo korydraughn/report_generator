@@ -19,6 +19,8 @@ export default props => {
           <legend>Testing</legend>
           <NestedForm field="testing">
             <Form
+              dontValidateOnMount={true}
+              validateOnSubmit={true}
               defaultValues={props.data}
               validateError={errorValidator}>
               {formApi => (
@@ -42,6 +44,6 @@ function errorValidator(values)
   const {tests_administered} = values;
 
   return {
-    tests_administered: tests_administered.length === 0 ? "You must select at least one Test" : null
+    tests_administered: tests_administered.length !== 2 ? "You must select both Tests" : null
   };
 }

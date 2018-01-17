@@ -6,6 +6,8 @@ import DAS2 from "./tests/das_2";
 import WJ4 from "./tests/wj4_ach";
 import * as test_spec from "./test_spec";
 
+import "./test_details_form.css";
+
 export default withRouter(props => {
   const {tests_administered, data} = props.data;
 
@@ -15,12 +17,13 @@ export default withRouter(props => {
     <div>
       <SingleElementContainer>
         <Form
-          dontValidateOnMount={false}
           onSubmit={onSubmit}
           onSubmitFailure={onSubmitFailure}>
           {formApi => (
             <form onSubmit={formApi.submitForm}>
-              {tests_administered.map(t => <Test key={t.id} typeInfo={t} data={data[t.id]} />)}
+              <div className="separate-tests">
+                {tests_administered.map(t => <Test key={t.id} typeInfo={t} data={data[t.id]} />)}
+              </div>
               <div>
                 <button type="submit" className="btn btn-lg btn-primary float-right">
                   Generate Report
@@ -29,7 +32,6 @@ export default withRouter(props => {
             </form>
           )}
         </Form>
-        <pre>{JSON.stringify(props.data, null, 2)}</pre>
       </SingleElementContainer>
     </div>
   );
@@ -40,7 +42,7 @@ function Test(props)
   const {typeInfo, data} = props;
 
   return (
-    <div style={{marginBottom: "3rem"}}>
+    <div>
       {
         typeInfo.id === test_spec.DAS_II ? <DAS2 data={data} /> :
         typeInfo.id === test_spec.WJ4_ACH ? <WJ4 data={data} /> :
@@ -62,5 +64,6 @@ function onSubmitSuccess(values, e, formApi, props)
 
 function onSubmitFailure(errors, formApi, onSubmitError)
 {
-  console.error("Errors found: ", errors);
+  console.debug("Errors found: ", errors);
+  window.location = "#top";
 }

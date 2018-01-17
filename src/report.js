@@ -36,7 +36,7 @@ export default withRouter(props => {
   const test_period = toDateString(student.start_date) + " to " + toDateString(student.end_date);
 
   return (
-    <div className="report" style={{fontSize: "1rem"}}>
+    <div className="report" style={{fontSize: "0.8rem"}}>
       <ContainerFluid>
         <Row>
           <Col>
@@ -116,7 +116,6 @@ export default withRouter(props => {
                 a standard deviation of 10 (average scores range from 40 to 60). {student.name}'s performance is listed on the
                 following chart:
               </p>
-              {/*<div><DAS2_Table data={testing.data[DAS_II]} /></div>*/}
               <div><DAS2 data={das2} /></div>
               <p>
                 <span><u><b>General Conceptual Ability (GCA)</b></u></span><br />
@@ -158,21 +157,20 @@ export default withRouter(props => {
                 not be identical to, {his_her_lower} performance in this school's particular curriculum. {student.name} obtained the following
                 scores, based on comparison to other {student.age}-year-old students from across the United States.
               </p>
-              {/*<div><WJ4_ACH_Table data={wj4_ach} /></div>*/}
               <div><WJ4 data={wj4} /></div>
               <p>
                 <span><u><b>Reading</b></u></span><br />
-                {student.name} was assessed in three areas to determine {his_her_lower} reading ability, Basic Reading Skills, Reading Comprehension, 
-                and Reading Fluency. The Basic Reading Skills cluster is composed of subtests that include identifying and reading letters 
-                in addition to real and nonsense words. In this area, {student.name} earned a score of 78 which is within the low range and 
-                is as good as or better than 7 percent of {his_her_lower} same aged peers.
+                {student.name} was assessed in three areas to determine {his_her_lower} reading ability, <u>Basic Reading Skills</u>, 
+                <u>Reading Comprehension</u>, and <u>Reading Fluency</u>. The <u>Basic Reading Skills</u> cluster is composed of subtests
+                that include identifying and reading letters in addition to real and nonsense words. In this area, {student.name} earned a
+                score of 78 which is within the low range and is as good as or better than 7 percent of {his_her_lower} same aged peers.
                 <br /><br />
-                The Reading Comprehension cluster is composed of the Passage Comprehension and Reading Recall subtests. These subtests require 
+                The <u>Reading Comprehension</u> cluster is composed of the Passage Comprehension and Reading Recall subtests. These subtests require 
                 students to read passages and identify missing words in addition to reading a passage and recalling as much information as they 
                 can remember. In this area, {student.name} earned a score of 89 which is within the low average range and as good as or better 
                 than 24 percent of {his_her_lower} same aged peers.
                 <br /><br />
-                The Reading Fluency cluster is used in order to assess how quickly and automatically students can read and process information. 
+                The <u>Reading Fluency</u> cluster is used in order to assess how quickly and automatically students can read and process information. 
                 This cluster is composed of the Oral Reading and Sentence Reading Fluency subtests. Students are required to read short passages 
                 outloud as well as read sentences and decide if the sentence is true or false. In this area, {student.name} earned a score of 78 
                 which is within the low range and as good as or better than 8 percent of {his_her_lower} same aged peers. 
@@ -187,6 +185,17 @@ export default withRouter(props => {
               <legend className="text-center"><u>Summary &amp; Conclusions</u></legend>
               <p style={{whiteSpace: "pre-line"}}>{notes.sac}</p>
             </fieldset>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            <p style={{whiteSpace: "pre-line", marginTop: "3rem"}}>
+              _________________________________<br />
+              {student.examiner}<br />
+              School Psychologist<br />
+              {student.school}
+            </p>
           </Col>
         </Row>
       </ContainerFluid>

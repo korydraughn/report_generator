@@ -10,6 +10,8 @@ export default props => {
         <legend>Notes</legend>
         <NestedForm field="notes">
           <Form
+            dontValidateOnMount={true}
+            validateOnSubmit={true}
             defaultValues={props.data}
             validateWarning={warningValidator}>
             {formApi => (

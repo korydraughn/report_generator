@@ -65,6 +65,8 @@ function TableRow(props)
   return (
     <NestedForm field={subtest.id}>
       <Form
+        dontValidateOnMount={true}
+        validateOnSubmit={true}
         defaultValues={data}
         validateError={values => errorValidator(values, showAllInputs(subtest.id))}>
         {formApi => (

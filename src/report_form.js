@@ -11,25 +11,23 @@ import 'bootstrap/dist/css/bootstrap-grid.css';
 
 export default withRouter(props => {
   const {data} = props;
-  const {student, notes, tests} = props.handlers;
 
   const onSubmit = (values, e, formApi) => onSubmitSuccess(values, e, formApi, props);
 
   return (
     <div>
       <Form
-        dontValidateOnMount={false}
         onSubmit={onSubmit}
         onSubmitFailure={onSubmitFailure}>
         {formApi => (
           <form onSubmit={formApi.submitForm} id="main-form">
-            <StudentInfo data={data.student} {...student} />
+            <StudentInfo data={data.student} />
             <br />
 
-            <Notes data={data.notes} {...notes} />
+            <Notes data={data.notes} />
             <br />
 
-            <Testing data={data.testing} {...tests} />
+            <Testing data={data.testing} />
 
             <SingleElementContainer>
               <button type="submit" className="btn btn-lg btn-primary float-right">
@@ -54,5 +52,6 @@ function onSubmitSuccess(values, e, formApi, props)
 
 function onSubmitFailure(errors, formApi, onSubmitError)
 {
-  console.error("Errors found: ", errors);
+  console.debug("Errors found: ", errors);
+  window.location = "#top";
 }

@@ -1,0 +1,7 @@
+.separate-tests > div {
+  margin-bottom: 3rem;
+}
+
+.separate-tests > div:last-child {
+  margin-bottom: 1rem;
+}

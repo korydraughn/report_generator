@@ -21,6 +21,8 @@ export default props => {
         <legend>Student Demographics</legend>
         <NestedForm field="student">
           <Form
+            dontValidateOnMount={true}
+            validateOnSubmit={true}
             defaultValues={props.data}
             validateError={errorValidator}>
             {formApi => (
